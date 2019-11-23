@@ -3,8 +3,10 @@
  * @format
  */
 
-import React from 'react';
+import React, { useContext } from 'react';
 import { View, StyleSheet, Text } from 'react-native';
+// Context
+import Context from '../../utils/context/Context';
 // Components
 import Header from '../../components/Header';
 
@@ -13,6 +15,8 @@ type Props = {
 };
 
 const Home = (props: Props) => {
+  const { state } = useContext(Context);
+  console.log(state);
   return (
     <View style={styles.container}>
       <Header icon="menu" onPress={props.navigation.toggleDrawer} />
