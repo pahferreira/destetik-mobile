@@ -3,35 +3,90 @@
  * @format
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 import {
   View,
   StyleSheet,
   KeyboardAvoidingView,
   SafeAreaView,
   ScrollView,
+  ToastAndroid,
 } from 'react-native';
 // Components
 import Input from '../../components/Input';
 import Button from '../../components/Button';
+// Services
+import User from '../../services/User';
 
 type Props = {
   navigation: any,
 };
 
 const Register = (props: Props) => {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+
+  const handleSignUp = async () => {
+    try {
+      if (
+        name === '' ||
+        email === '' ||
+        password === '' ||
+        confirmPassword === ''
+      ) {
+        return ToastAndroid.show('Please enter all fields', ToastAndroid.LONG);
+      }
+      if (password !== confirmPassword) {
+        return ToastAndroid.show("Passwords doesn't match", ToastAndroid.LONG);
+      }
+      const data = await User.register({
+        name,
+        email,
+        password,
+        password2: confirmPassword,
+      });
+      if (data) {
+        props.navigation.navigate('Login');
+      }
+    } catch (error) {
+      ToastAndroid.show(error.message, ToastAndroid.LONG);
+    }
+  };
+
   return (
     <KeyboardAvoidingView style={styles.container}>
       <SafeAreaView style={styles.content}>
         <ScrollView style={styles.form}>
-          <Input name="Name" keyboardType="email-address" />
-          <Input name="Email" keyboardType="email-address" />
-          <Input name="Password" safeEntry />
-          <Input name="Confirm Password" safeEntry />
+          <Input
+            name="Name"
+            keyboardType="email-address"
+            value={name}
+            onChangeText={text => setName(text)}
+          />
+          <Input
+            name="Email"
+            keyboardType="email-address"
+            value={email}
+            onChangeText={text => setEmail(text)}
+          />
+          <Input
+            name="Password"
+            safeEntry
+            value={password}
+            onChangeText={text => setPassword(text)}
+          />
+          <Input
+            name="Confirm Password"
+            safeEntry
+            value={confirmPassword}
+            onChangeText={text => setConfirmPassword(text)}
+          />
         </ScrollView>
       </SafeAreaView>
       <View style={styles.buttonContainer}>
-        <Button value="Register" onPress={_ => _} />
+        <Button value="Register" onPress={handleSignUp} />
       </View>
     </KeyboardAvoidingView>
   );
