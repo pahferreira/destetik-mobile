@@ -11,12 +11,12 @@ import Colors from '../theme/Colors';
 type Props = {
   icon: any,
   onPress?: Function,
-  leftIcon?: any,
-  onPressLeft?: Function,
+  rightIcon?: any,
+  onPressRight?: Function,
 };
 
 const Header = (props: Props) => {
-  const { icon, onPress, leftIcon, onPressLeft } = props;
+  const { icon, onPress, rightIcon, onPressRight } = props;
 
   return (
     <View style={styles.container}>
@@ -24,10 +24,10 @@ const Header = (props: Props) => {
         <Icon name={icon} color={Colors.PRIMARY} size={22} />
       </TouchableOpacity>
 
-      {leftIcon && onPressLeft && (
-        <TouchableOpacity onPress={onPressLeft}>
+      {rightIcon && onPressRight && (
+        <TouchableOpacity onPress={onPressRight}>
           <Icon
-            name={leftIcon ? leftIcon : 'wc'}
+            name={rightIcon ? rightIcon : 'wc'}
             color={Colors.PRIMARY}
             size={22}
           />

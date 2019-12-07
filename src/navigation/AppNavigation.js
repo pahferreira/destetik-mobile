@@ -12,6 +12,7 @@ import Register from '../views/authStack/Register';
 import Profile from '../views/appStack/Profile';
 import Home from '../views/appStack/Home';
 import Location from '../views/appStack/Location';
+import Services from '../views/appStack/Services';
 
 const AuthStack = createStackNavigator(
   {
@@ -39,6 +40,7 @@ const AppStack = createDrawerNavigator(
     Home: { screen: Home },
     Profile: { screen: Profile },
     Location: { screen: Location },
+    Services: { screen: Services },
   },
   DrawerConfig,
 );

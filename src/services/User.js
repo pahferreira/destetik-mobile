@@ -84,4 +84,14 @@ const update = async (userNewData: UpdateUserType): Promise<?UserType> => {
   }
 };
 
-export default { register, login, current, update };
+const getAll = async (): Promise<any> => {
+  try {
+    const response = await api.get('api/user/all');
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    console.log(error.response);
+  }
+};
+
+export default { register, login, current, update, getAll };
