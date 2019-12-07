@@ -36,6 +36,16 @@ const SideMenu = (props: Props) => {
       </View>
       <View style={styles.navigationContainer}>
         <NavButton
+          name="Home"
+          icon="home"
+          onPress={() => props.navigation.navigate('Home')}
+          current={
+            props.navigation.state.routes[
+              props.navigation.state.index
+            ].routeName.toLowerCase() === 'home'
+          }
+        />
+        <NavButton
           name="Profile"
           icon="person"
           onPress={() => props.navigation.navigate('Profile')}

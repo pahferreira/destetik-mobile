@@ -42,9 +42,15 @@ export type UserType = {
   services: Array<ProvidedServiceType>,
 };
 
+type SelectedServiceType = {
+  image: number,
+  name: string,
+};
+
 export type State = {
   token: string,
   user: UserType,
+  selectedService: SelectedServiceType,
 };
 
 export type Action = {
@@ -66,6 +72,7 @@ export const initialState: State = {
     address: {},
     services: [],
   },
+  selectedService: {},
 };
 
 // Actions
@@ -81,6 +88,11 @@ export function reducer(state: State = initialState, action: Action) {
       return {
         ...state,
         user: action.payload,
+      };
+    case 'SELECT_SERVICE':
+      return {
+        ...state,
+        selectedService: action.payload,
       };
     default:
       return state;
