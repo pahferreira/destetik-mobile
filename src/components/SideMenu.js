@@ -36,7 +36,7 @@ const SideMenu = (props: Props) => {
       </View>
       <View style={styles.navigationContainer}>
         <NavButton
-          name="Home"
+          name="Início"
           icon="home"
           onPress={() => props.navigation.navigate('Home')}
           current={
@@ -46,7 +46,7 @@ const SideMenu = (props: Props) => {
           }
         />
         <NavButton
-          name="Profile"
+          name="Perfil"
           icon="person"
           onPress={() => props.navigation.navigate('Profile')}
           current={
@@ -56,13 +56,23 @@ const SideMenu = (props: Props) => {
           }
         />
         <NavButton
-          name="Location"
+          name="Minha Localização"
           icon="navigation"
           onPress={() => props.navigation.navigate('Location')}
           current={
             props.navigation.state.routes[
               props.navigation.state.index
             ].routeName.toLowerCase() === 'location'
+          }
+        />
+        <NavButton
+          name="Meus Serviços"
+          icon="star"
+          onPress={() => props.navigation.navigate('MyServices')}
+          current={
+            props.navigation.state.routes[
+              props.navigation.state.index
+            ].routeName.toLowerCase() === 'myservices'
           }
         />
         <NavButton

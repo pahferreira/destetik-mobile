@@ -94,6 +94,15 @@ export function reducer(state: State = initialState, action: Action) {
         ...state,
         selectedService: action.payload,
       };
+
+    case 'SERVICE_ADDED':
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          services: [...state.user.services, action.payload],
+        },
+      };
     default:
       return state;
   }
