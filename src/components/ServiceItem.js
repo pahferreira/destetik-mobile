@@ -17,17 +17,18 @@ type Props = {
     services: Array<any>,
   },
   selectedService: string,
+  onPress: Function,
 };
 
 const ServiceItem = (props: Props) => {
-  const { user, selectedService } = props;
+  const { user, selectedService, onPress } = props;
   const servicePriceArray = user.services.filter(
     service => service.serviceId.name === selectedService,
   );
   const servicePrice =
     servicePriceArray.length === 1 ? servicePriceArray[0].price.toFixed(2) : '';
   return (
-    <TouchableOpacity style={styles.container}>
+    <TouchableOpacity style={styles.container} onPress={onPress}>
       <View style={styles.personalInfo}>
         <Image
           source={

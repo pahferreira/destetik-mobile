@@ -31,7 +31,7 @@ type Service = {
 };
 
 const Services = (props: Props) => {
-  const { state } = useContext(Context);
+  const { state, dispatch } = useContext(Context);
   const [users, setUsers] = useState(null);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
@@ -88,6 +88,15 @@ const Services = (props: Props) => {
     return props.navigation.goBack();
   };
 
+  const selectUser = user => {
+    console.log(user);
+    dispatch({
+      type: 'SELECT_USER',
+      payload: user,
+    });
+    return props.navigation.navigate('Info');
+  };
+
   const _renderList = () => {
     if (loading) {
       return (
@@ -111,7 +120,11 @@ const Services = (props: Props) => {
         onRefresh={() => setRefreshing(true)}
         keyExtractor={item => item._id}
         renderItem={({ item }) => (
-          <ServiceItem user={item} selectedService={selectedService.name} />
+          <ServiceItem
+            user={item}
+            selectedService={selectedService.name}
+            onPress={() => selectUser(item)}
+          />
         )}
         ItemSeparatorComponent={() => <View style={styles.itemSeparator} />}
       />

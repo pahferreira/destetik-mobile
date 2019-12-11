@@ -51,6 +51,7 @@ export type State = {
   token: string,
   user: UserType,
   selectedService: SelectedServiceType,
+  selectedUser: UserType,
 };
 
 export type Action = {
@@ -73,6 +74,7 @@ export const initialState: State = {
     services: [],
   },
   selectedService: {},
+  selectedUser: {},
 };
 
 // Actions
@@ -94,7 +96,11 @@ export function reducer(state: State = initialState, action: Action) {
         ...state,
         selectedService: action.payload,
       };
-
+    case 'SELECT_USER':
+      return {
+        ...state,
+        selectedUser: action.payload,
+      };
     case 'SERVICE_ADDED':
       return {
         ...state,
