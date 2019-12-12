@@ -11,7 +11,7 @@ import {
   SafeAreaView,
   FlatList,
   TouchableOpacity,
-  Image,
+  ToastAndroid,
 } from 'react-native';
 // Context
 import Context from '../../utils/context/Context';
@@ -21,6 +21,7 @@ import Icon from 'react-native-vector-icons/dist/MaterialIcons';
 import Header from '../../components/Header';
 import MyServiceItem from '../../components/MyServiceItem';
 import AddServiceModal from '../../components/AddServiceModal';
+import RemoveServiceModal from '../../components/RemoveServiceModal';
 import Services from '../../services/Services';
 
 type Props = {
@@ -31,6 +32,8 @@ const Home = (props: Props) => {
   const { state, dispatch } = useContext(Context);
   const [servicesToProvide, setServicesToProvide] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [showRemoveModal, setShowRemoveModal] = useState(false);
+  const [selectedService, setSelectedService] = useState(null);
   const { services } = state.user;
 
   useEffect(() => {
@@ -59,6 +62,44 @@ const Home = (props: Props) => {
     });
   };
 
+  const removeService = async serviceId => {
+    const data = await Services.remove(serviceId);
+    dispatch({
+      type: 'SERVICE_REMOVED',
+      payload: serviceId,
+    });
+    if (data) {
+      const message = Object.values(data)[0];
+      return ToastAndroid.show(message, ToastAndroid.LONG);
+    }
+  };
+
+  const onSelectService = service => {
+    setSelectedService(service);
+    setShowRemoveModal(true);
+  };
+
+  const _renderServices = () => {
+    if (services.length === 0) {
+      return <Text>Voce ainda nao adicionou um servico.</Text>;
+    }
+    return (
+      <SafeAreaView style={styles.infoContainer}>
+        <FlatList
+          data={services}
+          keyExtractor={service => service._id}
+          renderItem={({ item }) => (
+            <MyServiceItem
+              myService={item}
+              onLongPress={() => onSelectService(item)}
+            />
+          )}
+          ItemSeparatorComponent={() => <View style={styles.itemSeparator} />}
+        />
+      </SafeAreaView>
+    );
+  };
+
   return (
     <View style={styles.container}>
       <AddServiceModal
@@ -67,16 +108,15 @@ const Home = (props: Props) => {
         servicesToProvide={servicesToProvide}
         addService={addService}
       />
+      <RemoveServiceModal
+        visible={showRemoveModal}
+        onRequestClose={() => setShowRemoveModal(false)}
+        removeService={removeService}
+        selectedService={selectedService}
+      />
       <Header icon="menu" onPress={props.navigation.toggleDrawer} />
       <Text style={styles.title}>Meus Serviços</Text>
-      <SafeAreaView style={styles.infoContainer}>
-        <FlatList
-          data={services}
-          keyExtractor={service => service._id}
-          renderItem={({ item }) => <MyServiceItem myService={item} />}
-          ItemSeparatorComponent={() => <View style={styles.itemSeparator} />}
-        />
-      </SafeAreaView>
+      {_renderServices()}
       <TouchableOpacity
         style={styles.floatButton}
         onPress={() => setShowModal(true)}>

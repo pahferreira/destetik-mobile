@@ -45,10 +45,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingVertical: 15,
     paddingHorizontal: 20,
-    borderBottomWidth: 0.5,
-    shadowOffset: { width: 0, height: 10 },
-    shadowColor: 'black',
-    shadowOpacity: 0.5,
+    elevation: 1,
   },
 });
 

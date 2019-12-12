@@ -6,4 +6,5 @@ export default {
   RED: 'red',
   PRIMARY_LIGHT: '#F1EAF1',
   SHADOW_GREY: '#323232CD',
+  DISABLED: '#B7B7B7',
 };

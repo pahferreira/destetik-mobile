@@ -23,4 +23,13 @@ const add = async (newService: Object): Promise<any> => {
   }
 };
 
-export default { getAvailables, add };
+const remove = async (serviceId: string): Promise<any> => {
+  try {
+    const response = await api.delete(`/api/provided/delete/${serviceId}`);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export default { getAvailables, add, remove };

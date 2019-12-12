@@ -16,12 +16,13 @@ type Props = {
       description: string,
     },
   },
+  onLongPress: Function,
 };
 
 const MyServiceItem = (props: Props) => {
-  const { myService } = props;
+  const { myService, onLongPress } = props;
   return (
-    <TouchableOpacity style={styles.container}>
+    <TouchableOpacity style={styles.container} onLongPress={onLongPress}>
       <View style={styles.personalInfo}>
         <Image
           source={

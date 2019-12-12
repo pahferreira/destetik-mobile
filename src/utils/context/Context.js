@@ -25,6 +25,7 @@ type ServiceType = {
 };
 
 type ProvidedServiceType = {
+  _id: string,
   price: number,
   serviceId: ServiceType,
   userId: string,
@@ -107,6 +108,16 @@ export function reducer(state: State = initialState, action: Action) {
         user: {
           ...state.user,
           services: [...state.user.services, action.payload],
+        },
+      };
+    case 'SERVICE_REMOVED':
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          services: state.user.services.filter(
+            service => service._id !== action.payload,
+          ),
         },
       };
     default:
