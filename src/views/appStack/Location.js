@@ -68,16 +68,16 @@ const Location = (props: Props) => {
       <Header
         icon="menu"
         onPress={props.navigation.toggleDrawer}
-        leftIcon="check"
-        onPressLeft={handleUpdate}
+        rightIcon="check"
+        onPressRight={handleUpdate}
       />
       <View style={styles.titleContainer}>
-        <Text style={styles.title}>Location</Text>
+        <Text style={styles.title}>Localização</Text>
       </View>
       <KeyboardAvoidingView style={styles.content}>
         <ScrollView>
           <Input
-            name="Zip Code"
+            name="CEP"
             maskType="custom"
             maskConfig={{
               mask: '99999-999',
@@ -87,22 +87,22 @@ const Location = (props: Props) => {
             onChangeText={text => setZipCode(text)}
           />
           <Input
-            name="City"
+            name="Cidade"
             value={city}
             onChangeText={text => setCity(text)}
           />
           <Input
-            name="Street"
+            name="Endereço"
             value={street}
             onChangeText={text => setStreet(text)}
           />
           <Input
-            name="District"
+            name="Bairro"
             value={district}
             onChangeText={text => setDistrict(text)}
           />
           <Input
-            name="House Number"
+            name="Número"
             keyboardType="numeric"
             value={houseNumber}
             onChangeText={text => setHouseNumber(text)}
@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
     fontStyle: 'italic',
   },
   content: {
-    height: '75%',
+    height: '80%',
     width: '100%',
     padding: '5%',
   },

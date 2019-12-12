@@ -68,16 +68,16 @@ const Login = (props: Props) => {
           onChangeText={text => setEmail(text)}
         />
         <Input
-          name="Password"
+          name="Senha"
           safeEntry
           value={password}
           onChangeText={text => setPassword(text)}
         />
-        <Button value="login" onPress={handleLogin} />
+        <Button value="entrar" onPress={handleLogin} />
         <TouchableOpacity
           onPress={() => props.navigation.navigate('Register')}
           style={styles.registerButtonContainer}>
-          <Text style={styles.registerButton}>Register here!</Text>
+          <Text style={styles.registerButton}>Cadastre-se!</Text>
         </TouchableOpacity>
       </View>
     </View>

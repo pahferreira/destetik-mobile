@@ -55,14 +55,14 @@ const Profile = (props: Props) => {
       <Header
         icon="menu"
         onPress={props.navigation.toggleDrawer}
-        leftIcon="check"
-        onPressLeft={handleUpdate}
+        rightIcon="check"
+        onPressRight={handleUpdate}
       />
       <View style={styles.titleContainer}>
-        <Text style={styles.title}>Profile</Text>
+        <Text style={styles.title}>Perfil</Text>
       </View>
       <View style={styles.content}>
-        <Input name="Name" value={name} onChangeText={text => setName(text)} />
+        <Input name="Nome" value={name} onChangeText={text => setName(text)} />
         <Input
           name="Email"
           value={email}
@@ -70,7 +70,7 @@ const Profile = (props: Props) => {
           keyboardType="email-address"
         />
         <Input
-          name="Phone"
+          name="Telefone"
           maskType="custom"
           maskConfig={{
             mask: '(99)99999-9999',

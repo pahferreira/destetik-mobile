@@ -68,7 +68,7 @@ const Home = (props: Props) => {
         addService={addService}
       />
       <Header icon="menu" onPress={props.navigation.toggleDrawer} />
-      <Text style={styles.title}>My Services</Text>
+      <Text style={styles.title}>Meus Serviços</Text>
       <SafeAreaView style={styles.infoContainer}>
         <FlatList
           data={services}

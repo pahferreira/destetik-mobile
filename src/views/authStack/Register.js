@@ -60,8 +60,7 @@ const Register = (props: Props) => {
       <SafeAreaView style={styles.content}>
         <ScrollView style={styles.form}>
           <Input
-            name="Name"
-            keyboardType="email-address"
+            name="Nome"
             value={name}
             onChangeText={text => setName(text)}
           />
@@ -72,13 +71,13 @@ const Register = (props: Props) => {
             onChangeText={text => setEmail(text)}
           />
           <Input
-            name="Password"
+            name="Senha"
             safeEntry
             value={password}
             onChangeText={text => setPassword(text)}
           />
           <Input
-            name="Confirm Password"
+            name="Confirmar Senha"
             safeEntry
             value={confirmPassword}
             onChangeText={text => setConfirmPassword(text)}
@@ -86,7 +85,7 @@ const Register = (props: Props) => {
         </ScrollView>
       </SafeAreaView>
       <View style={styles.buttonContainer}>
-        <Button value="Register" onPress={handleSignUp} />
+        <Button value="Cadastrar" onPress={handleSignUp} />
       </View>
     </KeyboardAvoidingView>
   );

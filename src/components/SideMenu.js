@@ -3,11 +3,11 @@
  * @format
  */
 
-import React from 'react';
+import React, { useContext } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/dist/MaterialIcons';
 import Colors from '../theme/Colors';
-// import Context from '../utils/context/Context';
+import Context from '../utils/context/Context';
 // Components
 import NavButton from './NavButton';
 // import AsyncStorage from '@react-native-community/async-storage';
@@ -17,6 +17,7 @@ type Props = {
 };
 
 const SideMenu = (props: Props) => {
+  const { state } = useContext(Context);
   const handleLogout = async () => {
     // await AsyncStorage.removeItem('jwtToken');
     props.navigation.navigate('Login');
@@ -31,8 +32,8 @@ const SideMenu = (props: Props) => {
         </TouchableOpacity>
       </View>
       <View style={styles.userInfoContainer}>
-        <Text>Welcome,</Text>
-        <Text style={styles.userNameText}>Maria Fernandes Rabelo</Text>
+        <Text>Olá,</Text>
+        <Text style={styles.userNameText}>{state.user.name}</Text>
       </View>
       <View style={styles.navigationContainer}>
         <NavButton
@@ -76,7 +77,7 @@ const SideMenu = (props: Props) => {
           }
         />
         <NavButton
-          name="Logout"
+          name="Sair"
           icon="exit-to-app"
           rotate="180deg"
           onPress={handleLogout}

@@ -77,7 +77,7 @@ const Home = (props: Props) => {
   return (
     <View style={styles.container}>
       <Header icon="menu" onPress={props.navigation.toggleDrawer} />
-      <Text style={styles.title}>Services</Text>
+      <Text style={styles.title}>Serviços</Text>
       <SafeAreaView style={styles.servicesContainer}>
         <FlatList
           data={services}
@@ -111,8 +111,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   serviceImage: {
-    width: 180,
-    height: 120,
+    width: 160,
+    height: 100,
     resizeMode: 'cover',
     borderRadius: 20,
   },
