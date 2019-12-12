@@ -36,7 +36,7 @@ const Home = (props: Props) => {
     },
     {
       name: 'Makeup',
-      image: require('../../assets/services/manicure.png'),
+      image: require('../../assets/services/makeup.png'),
     },
     {
       name: 'Limpeza de Pele',
@@ -52,7 +52,7 @@ const Home = (props: Props) => {
     },
     {
       name: 'Hairstyle',
-      image: require('../../assets/services/manicure.png'),
+      image: require('../../assets/services/hairstyle.png'),
     },
     {
       name: 'Pedicure',
