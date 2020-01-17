@@ -111,13 +111,14 @@ export function reducer(state: State = initialState, action: Action) {
         },
       };
     case 'SERVICE_REMOVED':
+      const filteredServices: Array<any> = state.user.services.filter(
+        service => service._id !== action.payload,
+      );
       return {
         ...state,
         user: {
           ...state.user,
-          services: state.user.services.filter(
-            service => service._id !== action.payload,
-          ),
+          services: filteredServices,
         },
       };
     default:
