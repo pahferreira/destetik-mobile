@@ -28,7 +28,7 @@ type Props = {
   navigation: any,
 };
 
-const Home = (props: Props) => {
+const MyServices = (props: Props) => {
   const { state, dispatch } = useContext(Context);
   const [servicesToProvide, setServicesToProvide] = useState([]);
   const [showModal, setShowModal] = useState(false);
@@ -170,4 +170,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Home;
+export default MyServices;
