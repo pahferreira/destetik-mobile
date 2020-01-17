@@ -20,6 +20,7 @@ import Icon from 'react-native-vector-icons/dist/MaterialIcons';
 import Context from '../../utils/context/Context';
 // Components
 import Header from '../../components/Header';
+import ContractServiceModal from '../../components/ContractServiceModal';
 
 type Props = {
   navigation: any,
@@ -28,10 +29,9 @@ type Props = {
 const Info = (props: Props) => {
   const { state } = useContext(Context);
   const [showMap, setShowMap] = useState(false);
+  const [showContractModal, setShowContractModal] = useState(false);
   const selectedUser = state.selectedUser;
   const [geoLocation, setGeoLocation] = useState({ latitude: 0, longitude: 0 });
-
-  console.log(selectedUser);
 
   useEffect(() => {
     if (selectedUser.address) {
@@ -69,6 +69,11 @@ const Info = (props: Props) => {
           </MapView>
         )}
       </Modal>
+      <ContractServiceModal
+        visible={showContractModal}
+        services={selectedUser.services}
+        onRequestClose={() => setShowContractModal(false)}
+      />
       <Header icon="arrow-back" onPress={_onPressBack} />
       <View style={styles.content}>
         <View style={styles.infoContainer}>
@@ -118,6 +123,11 @@ const Info = (props: Props) => {
             </TouchableOpacity>
           </View>
         )}
+        <TouchableOpacity
+          style={styles.contractButtonContainer}
+          onPress={() => setShowContractModal(true)}>
+          <Text style={styles.contractButton}>Contratar servicos</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -156,6 +166,7 @@ const styles = StyleSheet.create({
   profileName: {
     fontWeight: 'bold',
     fontSize: 30,
+    textAlign: 'center',
   },
   profileImage: {
     width: 100,
@@ -209,6 +220,16 @@ const styles = StyleSheet.create({
   locationButton: {
     fontWeight: 'bold',
     color: Colors.PRIMARY,
+  },
+  contractButton: {
+    fontWeight: 'bold',
+    color: Colors.WHITE,
+  },
+  contractButtonContainer: {
+    backgroundColor: Colors.PRIMARY,
+    padding: 10,
+    borderRadius: 10,
+    marginTop: 20,
   },
 });
 
