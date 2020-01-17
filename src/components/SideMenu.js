@@ -77,6 +77,16 @@ const SideMenu = (props: Props) => {
           }
         />
         <NavButton
+          name="Historico"
+          icon="history"
+          onPress={() => props.navigation.navigate('History')}
+          current={
+            props.navigation.state.routes[
+              props.navigation.state.index
+            ].routeName.toLowerCase() === 'history'
+          }
+        />
+        <NavButton
           name="Sair"
           icon="exit-to-app"
           rotate="180deg"
