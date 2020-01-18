@@ -10,14 +10,13 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
-  TextInput,
   ToastAndroid,
+  ActivityIndicator,
 } from 'react-native';
 import Colors from '../theme/Colors';
 import Icon from 'react-native-vector-icons/dist/MaterialIcons';
 import Input from '../components/Input';
-import Services from '../services/Services';
-
+import PerformedServices from '../services/PerformedServices';
 type Props = {
   visible: boolean,
   onRequestClose: Function,
@@ -29,19 +28,92 @@ const PaymentModal = (props: Props) => {
   const [creditCard, setCreditCard] = useState('');
   const [cvv, setCvv] = useState('');
   const [expirationDate, setExpirationDate] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleConfirm = async () => {
     try {
-      console.log(selectedService);
-      // Cleaning Form
-      setCreditCard('');
-      setCvv('');
-      setExpirationDate('');
-      onRequestClose();
+      setLoading(true);
+      const data = await PerformedServices.payService({
+        performedServiceId: selectedService._id,
+        creditCard,
+        cvv,
+        expirationDate,
+      });
+      setLoading(false);
+      if (data) {
+        ToastAndroid.show(data, ToastAndroid.LONG);
+        // Cleaning Form
+        setCreditCard('');
+        setCvv('');
+        setExpirationDate('');
+        onRequestClose();
+      }
     } catch (error) {
       console.log(error);
       ToastAndroid.show(error, ToastAndroid.LONG);
     }
+  };
+
+  const _renderContent = () => {
+    if (loading) {
+      <View>
+        <ActivityIndicator size="small" color={Colors.PRIMARY} />
+      </View>;
+    }
+    return (
+      <>
+        <View style={styles.body}>
+          <Input
+            name="Cartão de Crédito"
+            maskType="custom"
+            maskConfig={{
+              mask: '9999 9999 9999 9999',
+            }}
+            keyboardType="numeric"
+            value={creditCard}
+            onChangeText={setCreditCard}
+          />
+          <View style={styles.inputContainer}>
+            <View style={styles.cvvInput}>
+              <Input
+                name="CVV"
+                maskType="custom"
+                maskConfig={{
+                  mask: '999',
+                }}
+                keyboardType="numeric"
+                value={cvv}
+                onChangeText={setCvv}
+              />
+            </View>
+            <View style={styles.expirationDateInput}>
+              <Input
+                name="Data de Validade"
+                maskType="custom"
+                maskConfig={{
+                  mask: '99/99',
+                }}
+                keyboardType="numeric"
+                value={expirationDate}
+                onChangeText={setExpirationDate}
+              />
+            </View>
+          </View>
+        </View>
+        <View style={styles.footer}>
+          <TouchableOpacity
+            style={styles.buttonContainer}
+            onPress={onRequestClose}>
+            <Text style={styles.cancel}>CANCELAR</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.buttonContainer}
+            onPress={handleConfirm}>
+            <Text style={styles.label}>PAGAR</Text>
+          </TouchableOpacity>
+        </View>
+      </>
+    );
   };
 
   return (
@@ -57,56 +129,7 @@ const PaymentModal = (props: Props) => {
               <Icon name="close" color={Colors.SECONDARY} size={24} />
             </TouchableOpacity>
           </View>
-          <View style={styles.body}>
-            <Input
-              name="Cartão de Crédito"
-              maskType="custom"
-              maskConfig={{
-                mask: '9999 9999 9999 9999',
-              }}
-              keyboardType="numeric"
-              value={creditCard}
-              onChangeText={setCreditCard}
-            />
-            <View style={styles.inputContainer}>
-              <View style={styles.cvvInput}>
-                <Input
-                  name="CVV"
-                  maskType="custom"
-                  maskConfig={{
-                    mask: '999',
-                  }}
-                  keyboardType="numeric"
-                  value={cvv}
-                  onChangeText={setCvv}
-                />
-              </View>
-              <View style={styles.expirationDateInput}>
-                <Input
-                  name="Data de Validade"
-                  maskType="custom"
-                  maskConfig={{
-                    mask: '99/99',
-                  }}
-                  keyboardType="numeric"
-                  value={expirationDate}
-                  onChangeText={setExpirationDate}
-                />
-              </View>
-            </View>
-          </View>
-          <View style={styles.footer}>
-            <TouchableOpacity
-              style={styles.buttonContainer}
-              onPress={onRequestClose}>
-              <Text style={styles.cancel}>CANCELAR</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.buttonContainer}
-              onPress={handleConfirm}>
-              <Text style={styles.label}>PAGAR</Text>
-            </TouchableOpacity>
-          </View>
+          {_renderContent()}
         </View>
       </View>
     </Modal>

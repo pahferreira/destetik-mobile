@@ -3,18 +3,45 @@
  * @format
  */
 
-import React from 'react';
+import React, { useContext } from 'react';
 import { View, Text, StyleSheet, Modal, TouchableOpacity } from 'react-native';
 import Colors from '../theme/Colors';
+// Context
+import Context from '../utils/context/Context';
 
 type Props = {
   visible: boolean,
   onRequestClose: Function,
-  options: Array<any>,
+  showRatingModal: Function,
+  showPaymentModal: Function,
+  selectedService: any,
 };
 
 const MenuModal = (props: Props) => {
-  const { visible, onRequestClose, options } = props;
+  const { state } = useContext(Context);
+  const { user } = state;
+  const {
+    visible,
+    onRequestClose,
+    showRatingModal,
+    showPaymentModal,
+    selectedService,
+  } = props;
+
+  const _renderPayment = () => {
+    if (
+      !selectedService?.isPaid &&
+      user._id !== selectedService?.providedServiceId?.userId?._id
+    ) {
+      return (
+        <TouchableOpacity
+          style={styles.buttonContainer}
+          onPress={showPaymentModal}>
+          <Text style={styles.label}>PAGAR</Text>
+        </TouchableOpacity>
+      );
+    }
+  };
 
   return (
     <Modal
@@ -25,14 +52,12 @@ const MenuModal = (props: Props) => {
       <View style={styles.modalContainer}>
         <View style={styles.modal}>
           <View style={styles.body}>
-            {options.map(option => (
-              <TouchableOpacity
-                key={option.name}
-                style={styles.buttonContainer}
-                onPress={option.action}>
-                <Text style={styles.label}>{option.name.toUpperCase()}</Text>
-              </TouchableOpacity>
-            ))}
+            {_renderPayment()}
+            <TouchableOpacity
+              style={styles.buttonContainer}
+              onPress={showRatingModal}>
+              <Text style={styles.label}>AVALIAR</Text>
+            </TouchableOpacity>
             <TouchableOpacity
               style={styles.buttonContainer}
               onPress={onRequestClose}>
