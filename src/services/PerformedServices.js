@@ -31,7 +31,21 @@ const contractService = async (providedServiceId: ?string): any => {
     const response = await api.post('/api/performed/create', contract);
     return response.data;
   } catch (error) {
+    throw error.response;
+  }
+};
+
+const rateService = async (rate: any): any => {
+  try {
+    const response = await api.post('/api/rating/create', rate);
+    console.log(response.data);
+    if (response.data.error) {
+      throw response.data.error;
+    }
+    return response.data;
+  } catch (error) {
     console.log(error);
+    throw { message: error };
   }
 };
 
@@ -39,4 +53,5 @@ export default {
   getPerformedServicesAsClient,
   getPerformedServicesAsProvider,
   contractService,
+  rateService,
 };
