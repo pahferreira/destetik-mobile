@@ -46,16 +46,6 @@ const History = (props: Props) => {
       setServicesByOthers(servicesAsClient);
       setServicesToDisplay(servicesAsClient);
       setLoading(false);
-      setMenuOptions([
-        {
-          name: 'pagar',
-          action: () => setShowPaymentModal(true),
-        },
-        {
-          name: 'avaliar',
-          action: () => setShowRatingModal(true),
-        },
-      ]);
     })();
   }, []);
 
@@ -77,32 +67,16 @@ const History = (props: Props) => {
   }, [refreshing]);
 
   const onSelectService = service => {
-    setShowMenuModal(true);
     setSelectedService(service);
+    setShowMenuModal(true);
   };
 
   const displayServicesByMe = () => {
     setServicesToDisplay(servicesByMe);
-    setMenuOptions([
-      {
-        name: 'avaliar',
-        action: () => setShowRatingModal(true),
-      },
-    ]);
   };
 
   const displayServicesByOthers = () => {
     setServicesToDisplay(servicesByOthers);
-    setMenuOptions([
-      {
-        name: 'pagar',
-        action: () => setShowPaymentModal(true),
-      },
-      {
-        name: 'avaliar',
-        action: () => setShowRatingModal(true),
-      },
-    ]);
   };
 
   const _renderServices = () => {
@@ -147,6 +121,8 @@ const History = (props: Props) => {
         options={menuOptions}
         onRequestClose={() => setShowMenuModal(false)}
         selectedService={selectedService}
+        showRatingModal={() => setShowRatingModal(true)}
+        showPaymentModal={() => setShowPaymentModal(true)}
       />
       <RatingModal
         visible={showRatingModal}

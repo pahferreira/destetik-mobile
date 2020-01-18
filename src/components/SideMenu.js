@@ -10,7 +10,6 @@ import Colors from '../theme/Colors';
 import Context from '../utils/context/Context';
 // Components
 import NavButton from './NavButton';
-// import AsyncStorage from '@react-native-community/async-storage';
 
 type Props = {
   navigation: any,
@@ -19,10 +18,8 @@ type Props = {
 const SideMenu = (props: Props) => {
   const { state } = useContext(Context);
   const handleLogout = async () => {
-    // await AsyncStorage.removeItem('jwtToken');
     props.navigation.navigate('Login');
   };
-  // console.log(props.navigation.state.routes[props.navigation.state.index]);
 
   return (
     <View style={styles.container}>

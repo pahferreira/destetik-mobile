@@ -46,7 +46,6 @@ const Login = (props: Props) => {
       if (token) {
         await setUser(token);
         const data = await User.current();
-        console.log(data);
         if (data) {
           dispatch({
             type: 'SET_USER',

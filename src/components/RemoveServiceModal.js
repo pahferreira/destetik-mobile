@@ -26,8 +26,6 @@ type Props = {
 const RemoveServiceModal = (props: Props) => {
   const { visible, onRequestClose, removeService, selectedService } = props;
 
-  console.log(selectedService);
-
   const handleConfirm = async () => {
     try {
       await removeService(selectedService._id);
