@@ -20,6 +20,7 @@ import Header from '../../components/Header';
 import HistoryItem from '../../components/HistoryItem';
 import MenuModal from '../../components/MenuModal';
 import RatingModal from '../../components/RatingModal';
+import PaymentModal from '../../components/PaymentModal';
 
 type Props = {
   navigation: any,
@@ -150,6 +151,11 @@ const History = (props: Props) => {
       <RatingModal
         visible={showRatingModal}
         onRequestClose={() => setShowRatingModal(false)}
+        selectedService={selectedService}
+      />
+      <PaymentModal
+        visible={showPaymentModal}
+        onRequestClose={() => setShowPaymentModal(false)}
         selectedService={selectedService}
       />
       <Header icon="menu" onPress={props.navigation.toggleDrawer} />
