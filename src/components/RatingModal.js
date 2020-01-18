@@ -26,10 +26,8 @@ type Props = {
 const RatingModal = (props: Props) => {
   const { visible, onRequestClose, selectedService } = props;
   const [rating, setRating] = useState(0);
-  console.log(selectedService);
 
   const ratingCompleted = ratingFromComponent => {
-    console.log(ratingFromComponent);
     setRating(ratingFromComponent);
   };
 
