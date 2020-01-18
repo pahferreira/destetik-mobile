@@ -5,17 +5,16 @@
 
 import React from 'react';
 import { View, Text, StyleSheet, Modal, TouchableOpacity } from 'react-native';
-import Icon from 'react-native-vector-icons/dist/MaterialIcons';
 import Colors from '../theme/Colors';
 
 type Props = {
   visible: boolean,
-  selectedService: any,
   onRequestClose: Function,
+  options: Array<any>,
 };
 
 const MenuModal = (props: Props) => {
-  const { visible, onRequestClose, selectedService } = props;
+  const { visible, onRequestClose, options } = props;
 
   return (
     <Modal
@@ -26,12 +25,14 @@ const MenuModal = (props: Props) => {
       <View style={styles.modalContainer}>
         <View style={styles.modal}>
           <View style={styles.body}>
-            <TouchableOpacity style={styles.buttonContainer}>
-              <Text style={styles.label}>PAGAR</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.buttonContainer}>
-              <Text style={styles.label}>AVALIAR</Text>
-            </TouchableOpacity>
+            {options.map(option => (
+              <TouchableOpacity
+                key={option.name}
+                style={styles.buttonContainer}
+                onPress={option.action}>
+                <Text style={styles.label}>{option.name.toUpperCase()}</Text>
+              </TouchableOpacity>
+            ))}
             <TouchableOpacity
               style={styles.buttonContainer}
               onPress={onRequestClose}>

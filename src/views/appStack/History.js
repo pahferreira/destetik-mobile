@@ -11,43 +11,97 @@ import {
   SafeAreaView,
   FlatList,
   TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native';
-// Context
-// import Context from '../../utils/context/Context';
 import Colors from '../../theme/Colors';
 import PerformedServices from '../../services/PerformedServices';
 // Components
 import Header from '../../components/Header';
 import HistoryItem from '../../components/HistoryItem';
 import MenuModal from '../../components/MenuModal';
+import RatingModal from '../../components/RatingModal';
 
 type Props = {
   navigation: any,
 };
 
 const History = (props: Props) => {
-  // const { state, dispatch } = useContext(Context);
   const [servicesToDisplay, setServicesToDisplay] = useState([]);
   const [servicesByMe, setServicesByMe] = useState([]);
   const [servicesByOthers, setServicesByOthers] = useState([]);
   const [selectedService, setSelectedService] = useState(null);
   const [showMenuModal, setShowMenuModal] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
+  const [showRatingModal, setShowRatingModal] = useState(false);
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
+  const [menuOptions, setMenuOptions] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     (async () => {
       const servicesAsClient = await PerformedServices.getPerformedServicesAsClient();
       const servicesAsProvider = await PerformedServices.getPerformedServicesAsProvider();
-      console.log(servicesAsClient);
-      console.log(servicesAsProvider);
       setServicesByMe(servicesAsProvider);
       setServicesByOthers(servicesAsClient);
       setServicesToDisplay(servicesAsClient);
+      setLoading(false);
+      setMenuOptions([
+        {
+          name: 'pagar',
+          action: () => setShowPaymentModal(true),
+        },
+        {
+          name: 'avaliar',
+          action: () => setShowRatingModal(true),
+        },
+      ]);
     })();
   }, []);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        if (refreshing) {
+          const servicesAsClient = await PerformedServices.getPerformedServicesAsClient();
+          const servicesAsProvider = await PerformedServices.getPerformedServicesAsProvider();
+          setServicesByMe(servicesAsProvider);
+          setServicesByOthers(servicesAsClient);
+          setServicesToDisplay(servicesAsClient);
+          setRefreshing(false);
+        }
+      } catch (error) {
+        console.log(error.response);
+      }
+    })();
+  }, [refreshing]);
 
   const onSelectService = service => {
     setShowMenuModal(true);
     setSelectedService(service);
+  };
+
+  const displayServicesByMe = () => {
+    setServicesToDisplay(servicesByMe);
+    setMenuOptions([
+      {
+        name: 'avaliar',
+        action: () => setShowRatingModal(true),
+      },
+    ]);
+  };
+
+  const displayServicesByOthers = () => {
+    setServicesToDisplay(servicesByOthers);
+    setMenuOptions([
+      {
+        name: 'pagar',
+        action: () => setShowPaymentModal(true),
+      },
+      {
+        name: 'avaliar',
+        action: () => setShowRatingModal(true),
+      },
+    ]);
   };
 
   const _renderServices = () => {
@@ -61,6 +115,8 @@ const History = (props: Props) => {
     return (
       <SafeAreaView style={styles.infoContainer}>
         <FlatList
+          refreshing={refreshing}
+          onRefresh={() => setRefreshing(true)}
           data={servicesToDisplay}
           keyExtractor={service => service._id}
           renderItem={({ item }) => (
@@ -72,25 +128,42 @@ const History = (props: Props) => {
     );
   };
 
+  const _renderLoading = () => {
+    if (loading) {
+      return (
+        <View style={[styles.infoContainer, styles.emptyTextContainer]}>
+          <ActivityIndicator size="large" color={Colors.DISABLED} />
+        </View>
+      );
+    }
+    return _renderServices();
+  };
+
   return (
     <View style={styles.container}>
       <MenuModal
         visible={showMenuModal}
+        options={menuOptions}
         onRequestClose={() => setShowMenuModal(false)}
+        selectedService={selectedService}
+      />
+      <RatingModal
+        visible={showRatingModal}
+        onRequestClose={() => setShowRatingModal(false)}
         selectedService={selectedService}
       />
       <Header icon="menu" onPress={props.navigation.toggleDrawer} />
       <Text style={styles.title}>Histórico</Text>
-      {_renderServices()}
+      {_renderLoading()}
       <View style={styles.footer}>
         <TouchableOpacity
           style={styles.buttonContainer}
-          onPress={() => setServicesToDisplay(servicesByMe)}>
+          onPress={displayServicesByMe}>
           <Text style={styles.byMeText}>REALIZADOS POR MIM</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.buttonContainer}
-          onPress={() => setServicesToDisplay(servicesByOthers)}>
+          onPress={displayServicesByOthers}>
           <Text style={styles.byOthersText}>REALIZADOS POR OUTROS</Text>
         </TouchableOpacity>
       </View>
