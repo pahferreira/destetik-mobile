@@ -10,8 +10,11 @@ import {
   StyleSheet,
   TouchableOpacity,
   ToastAndroid,
+  Modal,
+  ActivityIndicator,
 } from 'react-native';
 import { setUser } from '../../utils/helpers';
+import Colors from '../../theme/Colors';
 // Components
 import Input from '../../components/Input';
 import Button from '../../components/Button';
@@ -28,12 +31,14 @@ const Login = (props: Props) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const { dispatch } = useContext(Context);
+  const [visible, setVisible] = useState(false);
 
   const handleLogin = async () => {
     try {
       if (email === '' || password === '') {
         return ToastAndroid.show('Enter all fields', ToastAndroid.LONG);
       }
+      setVisible(true);
       const token = await User.login({
         email,
         password,
@@ -50,6 +55,7 @@ const Login = (props: Props) => {
               user: data,
             },
           });
+          setVisible(false);
           props.navigation.navigate('Home');
         }
       }
@@ -60,6 +66,11 @@ const Login = (props: Props) => {
 
   return (
     <View style={styles.container}>
+      <Modal visible={visible} transparent animationType="slide">
+        <View style={styles.modalContainer}>
+          <ActivityIndicator size="large" color={Colors.DISABLED} />
+        </View>
+      </Modal>
       <View style={styles.content}>
         <Input
           name="Email"
@@ -90,6 +101,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: '5%',
+  },
+  modalContainer: {
+    backgroundColor: Colors.SHADOW_GREY,
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   content: {
     height: '50%',
