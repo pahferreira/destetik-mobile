@@ -42,23 +42,18 @@ const ContractServiceModal = (props: Props) => {
     try {
       setLoading(true);
       const data = await PerfomedServices.contractService(selectedService);
-      console.log(data);
       setLoading(false);
       onRequestClose();
     } catch (error) {
       console.log(error);
-      ToastAndroid.show(error, ToastAndroid.LONG);
+      ToastAndroid.show(
+        'Algo deu errado, por favor tente novamente.',
+        ToastAndroid.LONG,
+      );
     }
   };
 
   const _renderContent = () => {
-    if (servicesToContract.length === 0) {
-      return (
-        <View style={styles.body}>
-          <Text style={styles.label}>Não há mais serviços para adicionar</Text>
-        </View>
-      );
-    }
     return (
       <>
         <View style={styles.body}>
