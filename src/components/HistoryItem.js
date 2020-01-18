@@ -10,6 +10,7 @@ import Colors from '../theme/Colors';
 type Props = {
   service: {
     clientId: any,
+    isPaid: boolean,
     providedServiceId: {
       price: number,
       serviceId: {
@@ -43,6 +44,9 @@ const HistoryItem = (props: Props) => {
           </Text>
           <Text style={styles.phoneText}>
             {`Feito por: ${service.providedServiceId.userId.name}`}
+          </Text>
+          <Text style={styles.phoneText}>
+            {`Status: ${service.isPaid ? 'Pago' : 'A pagar'}`}
           </Text>
         </View>
       </View>
