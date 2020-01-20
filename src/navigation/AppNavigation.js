@@ -35,7 +35,9 @@ const { width } = Dimensions.get('window');
 const DrawerConfig = {
   drawerWidth: width * 0.85,
   drawerType: 'front',
-  contentComponent: ({ navigation }) => <SideMenu navigation={navigation} />,
+  contentComponent: ({ navigation }) => {
+    return <SideMenu navigation={navigation} />;
+  },
 };
 
 const AppStack = createDrawerNavigator(

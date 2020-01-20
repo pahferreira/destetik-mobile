@@ -5,6 +5,7 @@
 
 import React, { useContext, useState } from 'react';
 import { View, StyleSheet, Text, ToastAndroid } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 // Context
 import Context from '../../utils/context/Context';
 // Services
@@ -43,6 +44,7 @@ const Profile = (props: Props) => {
           type: 'UPDATE_USER',
           payload: data,
         });
+        await AsyncStorage.setItem('username', data.name);
         return ToastAndroid.show('User Updated', ToastAndroid.LONG);
       }
     } catch (error) {

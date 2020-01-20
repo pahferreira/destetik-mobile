@@ -3,9 +3,10 @@
  * @format
  */
 
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/dist/MaterialIcons';
+import AsyncStorage from '@react-native-community/async-storage';
 import Colors from '../theme/Colors';
 import Context from '../utils/context/Context';
 // Components
@@ -13,13 +14,25 @@ import NavButton from './NavButton';
 
 type Props = {
   navigation: any,
+  state: any,
 };
 
 const SideMenu = (props: Props) => {
   const { state } = useContext(Context);
+  const [userName, setUserName] = useState(state.user.name);
+
   const handleLogout = async () => {
     props.navigation.navigate('Login');
   };
+
+  useEffect(() => {
+    (async () => {
+      const userFromStorage = await AsyncStorage.getItem('username');
+      if (userFromStorage !== userName) {
+        setUserName(userFromStorage);
+      }
+    })();
+  }, [props.navigation, userName]);
 
   return (
     <View style={styles.container}>
@@ -30,7 +43,7 @@ const SideMenu = (props: Props) => {
       </View>
       <View style={styles.userInfoContainer}>
         <Text>Olá,</Text>
-        <Text style={styles.userNameText}>{state.user.name}</Text>
+        <Text style={styles.userNameText}>{userName}</Text>
       </View>
       <View style={styles.navigationContainer}>
         <NavButton
